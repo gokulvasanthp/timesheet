@@ -78,4 +78,10 @@ public class LeaveServiceImpl implements LeaveService {
         return leaveRepository.findById(leaveId)
                 .orElseThrow(() -> new RuntimeException("Leave not found"));
     }
+
+    @Override
+    public LeaveResponseDTO getLeaveById(UUID leaveId) {
+        Leave leave = getLeaveOrThrow(leaveId);
+        return LeaveMapper.toResponse(leave);
+    }
 }

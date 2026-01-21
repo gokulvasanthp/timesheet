@@ -15,4 +15,6 @@ public interface LeaveService {
     LeaveResponseDTO approveLeave(UUID leaveId, UUID approverId);
 
     LeaveResponseDTO rejectLeave(UUID leaveId, UUID approverId);
+
+    LeaveResponseDTO getLeaveById(UUID leaveId);
 }
