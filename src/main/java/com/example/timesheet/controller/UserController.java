@@ -23,7 +23,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/auth/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<LoginResponseDTO> auth(@Valid @RequestBody LoginRequestDTO request) {
         //User user = userService.getByUsername(request.getUsername());
         return ResponseEntity.ok(userService.validateUser(request.getUsername(), request.getPassword()));
