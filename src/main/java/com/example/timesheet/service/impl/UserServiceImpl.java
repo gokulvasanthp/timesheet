@@ -2,8 +2,11 @@ package com.example.timesheet.service.impl;
 
 import com.example.timesheet.entity.User;
 import com.example.timesheet.enums.UserRole;
+import com.example.timesheet.mapper.LoginResponseMapper;
 import com.example.timesheet.repository.UserRepository;
 import com.example.timesheet.service.UserService;
+import com.example.timesheet.util.jwtUtil;
+import com.example.timesheet.dto.LoginResponseDTO;
 import com.example.timesheet.dto.UserRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +20,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final jwtUtil jwtUtils;
 
     @Override
     public User getById(UUID userId) {
@@ -51,5 +55,16 @@ public class UserServiceImpl implements UserService {
         user.setActive(true);
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public LoginResponseDTO validateUser(String username, String password) {
+        User user = getByUsername(username);
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("Invalid username or password");
+        }
+        String token = jwtUtils.generateToken(user.getUsername());
+
+        return LoginResponseMapper.toResponse(token, user);
     }
 }

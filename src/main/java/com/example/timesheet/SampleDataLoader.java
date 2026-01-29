@@ -28,13 +28,13 @@ public class SampleDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        loadSampleData();
+        //loadSampleData();
     }
 
     private void loadSampleData() {
         // Create sample users
         User user1 = new User();
-        user1.setUsername("john_doe");
+        user1.setUsername("john");
         user1.setEmail("john@example.com");
         user1.setPassword(passwordEncoder.encode("password123"));
         user1.setRole(UserRole.EMPLOYEE);

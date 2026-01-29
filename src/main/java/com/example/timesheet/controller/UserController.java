@@ -1,5 +1,7 @@
 package com.example.timesheet.controller;
 
+import com.example.timesheet.dto.LoginRequestDTO;
+import com.example.timesheet.dto.LoginResponseDTO;
 import com.example.timesheet.dto.UserRequestDTO;
 import com.example.timesheet.dto.UserResponseDTO;
 import com.example.timesheet.entity.User;
@@ -16,9 +18,16 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
     private final UserService userService;
+
+    @GetMapping("/auth/login")
+    public ResponseEntity<LoginResponseDTO> auth(@Valid @RequestBody LoginRequestDTO request) {
+        //User user = userService.getByUsername(request.getUsername());
+        return ResponseEntity.ok(userService.validateUser(request.getUsername(), request.getPassword()));
+    }
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponseDTO> getUser(@PathVariable UUID userId) {
